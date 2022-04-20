@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './InterviewerListItem.scss';
+
 export default function InterviewerListItem(props) {
   const {id, name, avatar, selected, setInterviewer} = props;
 

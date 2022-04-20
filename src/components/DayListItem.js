@@ -5,11 +5,11 @@ import classNames from "classnames";
 
 function formatSpots(spots) {
   if (spots === 0) {
-    return  <h3 className="text--light">no spots remaining</h3>
+    return 'no spots remaining';
   } else if (spots === 1) {
-    return  <h3 className="text--light">{spots} spot remaining</h3>
+    return '{spots} spot remaining';
   }
-  return  <h3 className="text--light">{spots} spots remaining</h3>
+  return '{spots} spots remaining';
 }
 
 export default function DayListItem(props) {
@@ -26,7 +26,7 @@ export default function DayListItem(props) {
       className={dayClass}>
       <h2 className="text--regular">{name}</h2>
 
-      {formatSpots(spots)}
+      <h3 className="text--light">{formatSpots(spots)}</h3>
 
     </li>
   );

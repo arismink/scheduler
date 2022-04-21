@@ -3,8 +3,6 @@ import React, {useState} from "react";
 import "components/Application.scss";
 
 import DayList from "./DayList";
-import InterviewerList from "./InterviewerList";
-import Appointment from "components/Appointment";
 
 const days = [
   {

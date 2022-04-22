@@ -16,7 +16,6 @@ export default function Application() {
     appointment: {}
   });
 
-  let dailyAppointments = [];
 
   const setDay = day => setState({...state, day});
 
@@ -32,13 +31,13 @@ export default function Application() {
         ...prev,
         days: all[0].data,
         appointments: all[1].data,
-        interviewers: all[2].data}
-        ))
+        interviewers: all[2].data
+      }))
     })
     }, []);
 
 
-  dailyAppointments = getAppointmentsForDay(state, state.day);
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
 
   const appointmentsArray = dailyAppointments.map(appointment => {
     return (

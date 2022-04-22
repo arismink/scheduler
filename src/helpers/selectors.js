@@ -3,6 +3,7 @@ export function getAppointmentsForDay(state, day) {
   // Guard clause. check state.days or state.appointments is empty
   if (!state.days || !state.appointments) return [];
 
+  // Create array of day objects
   const arrayOfDays = Object.values(state.days);
 
   // Guard clause. Check if day exists in state.days

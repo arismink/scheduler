@@ -1,3 +1,20 @@
+function getInterviewersForDay(state, day) {
+  // Guard clause. Check if objects passed are valid
+  if (!state.interviewers) return []; 
+
+  // Create array of day objects
+  const arrayOfDays = Object.values(state.days);
+
+  // Guard clause. Check if day exists in state.days
+  if (!arrayOfDays.some(d => d.name === day)) return [];
+
+  // Create array of interviewers for specified day
+  const arrayOfInterviewers = arrayOfDays.filter(d => d.name === day)[0].interviewers;
+
+  return Object.values(state.interviewers).filter(interviewer => arrayOfInterviewers.includes(interviewer.id));
+
+};
+
 // Return an object containing interview data
 function getInterview(state, interview) {
   
@@ -38,4 +55,4 @@ function getAppointmentsForDay(state, day) {
 
 };
 
-module.exports = { getAppointmentsForDay, getInterview }
+module.exports = { getAppointmentsForDay, getInterview, getInterviewersForDay }

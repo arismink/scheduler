@@ -1,6 +1,8 @@
 // Return an object containing interview data
 function getInterview(state, interview) {
-  if (!state.interviewers || !interview) return null; // Guard clause. Check if objects passed are valid
+  
+  // Guard clause. Check if objects passed are valid
+  if (!state.interviewers || !interview) return null; 
 
   const interviewersArray = Object.values(state.interviewers);
 

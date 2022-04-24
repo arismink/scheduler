@@ -12,7 +12,7 @@ function getInterview(state, interview) {
 
   const student = interview.student;
 
-  return { student ,interviewer };
+  return { student, interviewer };
 
 
 };

@@ -46,6 +46,19 @@ export default function Application() {
       ...state.appointments[id],
       interview: { ...interview }
     };
+
+    console.log('a', appointment);
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    
+    // Call setState and update it with the newly booked appointment
+    setState({
+      ...state,
+      appointments
+    })
   }
 
   // Get array of appointments that day

@@ -11,7 +11,7 @@ export default function useVisualMode(init) {
     // If replace is true, we are replacing current mode in history
     if (replaced) setHistory([...history]);
   
-    // Set new history with what was previously in the history array 
+    // Set new history with what was previously in the history array and make React re-render
     else setHistory([...history, newMode]);
 
     setMode(newMode);

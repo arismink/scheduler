@@ -27,7 +27,7 @@ function getInterview(state, interview) {
   if (!interviewersArray.some(i => i.id === interview.interviewer)) return null;
 
   // Object of scheduled interviewer
-  const interviewer = Object.values(state.interviewers).filter(interviewer => interviewer.id === interview.interviewer)[0];
+  const interviewer = interviewersArray.filter(interviewer => interviewer.id === interview.interviewer)[0];
 
   const student = interview.student;
 

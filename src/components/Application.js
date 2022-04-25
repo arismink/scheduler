@@ -38,9 +38,14 @@ export default function Application() {
     })
     }, []);
 
-  
+  // Allow change to local state when an interview is booked
   function bookInterview(id, interview) {
     console.log(id, interview);
+
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
   }
 
   // Get array of appointments that day

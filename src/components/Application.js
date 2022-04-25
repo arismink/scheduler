@@ -38,6 +38,10 @@ export default function Application() {
     })
     }, []);
 
+  
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+  }
 
   // Get array of appointments that day
   const dailyAppointments = getAppointmentsForDay(state, state.day);
@@ -55,6 +59,7 @@ export default function Application() {
         {...appointment}
         interview={interview}
         interviewers={dailyInterviewers}
+        bookInterview={bookInterview}
       />
     )
   });

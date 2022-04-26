@@ -32,7 +32,7 @@ export default function useApplicationData() {
     }, []);
 
   
-  function updateSpots(appointmentID, dayIndex) {
+  function updateSpots(dayIndex) {
 
     // Get array of appointmentIDs for specified day
     const dayApptSchedule = state.days[dayIndex].appointments;
@@ -42,7 +42,7 @@ export default function useApplicationData() {
     // Get array of appointment objects that correspond to the elements in dayApptSchedule
     const apptArray = Object.values(state.appointments).filter(a => dayApptSchedule.includes(a.id));
 
-    // console.log('apt array', apptArray);
+    console.log('apt array', apptArray);
 
     let count = 0;
 
@@ -52,6 +52,7 @@ export default function useApplicationData() {
         count++
       }
     }
+    count = count - 1;
     console.log('count', count);
     return count;
 
@@ -74,11 +75,11 @@ export default function useApplicationData() {
 
     const day = {
       ...state.days[dayIndex],
-      spots: updateSpots(id, dayIndex)
+      spots: updateSpots(dayIndex)
     }
 
     const days = (state.days).map(d => {
-      if (day.id === dayIndex) return day;
+      if (d.id === dayIndex) return day;
       return d
     })
 
@@ -88,6 +89,8 @@ export default function useApplicationData() {
     return axios.put(`/api/appointments/${id}`, appointment)
       .then((res) => {
         // Call setState and update it with the newly booked appointment
+
+        console.log('days', days);
         setState(prev => ({
           ...prev,
           appointments

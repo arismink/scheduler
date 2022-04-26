@@ -59,9 +59,7 @@ export default function Application() {
           appointments
         });
       })
-      .catch(err => {
-        console.log(err.message);
-      })
+
   };
 
   // Set specified interview of appointment id to null
@@ -83,9 +81,6 @@ export default function Application() {
           appointments
         })
       })
-      .catch(err => {
-        console.log(err.message)
-      });
 
   };
 

@@ -31,7 +31,7 @@ export default function useApplicationData() {
     })
     }, []);
 
-  
+
   // Allow change to local state when an interview is booked
   function bookInterview(id, interview) {
     const appointment = {
@@ -44,14 +44,25 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
+    // Find the index of the specific day
+    const dayIndex = state.days.find(day => day.appointments.includes(id)).id - 1;
+
+    const days = [...state.days];
+
+    // Subtract from remaining spots after promise is resolved
+    days[dayIndex].spots--;
+
     return axios.put(`/api/appointments/${id}`, appointment)
       .then((res) => {
         // Call setState and update it with the newly booked appointment
-        setState({
-          ...state,
-          appointments
-        });
+        setState(prev => ({
+          ...prev,
+          appointments,
+          days
+        }));
+
       })
+
   };
 
   // Set specified interview of appointment id to null
@@ -66,12 +77,21 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
+    // Find the index of the specific day
+    const dayIndex = state.days.find(day => day.appointments.includes(id)).id - 1;
+
+    const days = [...state.days];
+
+    // Add to remaining spots
+    days[dayIndex].spots++;
+
     return axios.delete(`/api/appointments/${id}`, appointment)
       .then(res => {
-        setState({
-          ...state,
-          appointments
-        })
+        setState(prev => ({
+          ...prev,
+          appointments,
+          days
+        }));
       })
 
   };

@@ -38,28 +38,56 @@ export default function Application() {
     })
     }, []);
 
+
   // Allow change to local state when an interview is booked
   function bookInterview(id, interview) {
-    console.log(id, interview);
-
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
     };
 
-    console.log('a', appointment);
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    return axios.put(`/api/appointments/${id}`, appointment)
+      .then((res) => {
+        // Call setState and update it with the newly booked appointment
+        setState({
+          ...state,
+          appointments
+        });
+      })
+      .catch(err => {
+        console.log(err.message);
+      })
+  };
+
+  // Set specified interview of appointment id to null
+  function cancelInterview(id) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
 
     const appointments = {
       ...state.appointments,
       [id]: appointment
     };
-    
-    // Call setState and update it with the newly booked appointment
-    setState({
-      ...state,
-      appointments
-    })
-  }
+
+    return axios.delete(`/api/appointments/${id}`, appointment)
+      .then(res => {
+        setState({
+          ...state,
+          appointments
+        })
+      })
+      .catch(err => {
+        console.log(err.message)
+      });
+
+  };
 
   // Get array of appointments that day
   const dailyAppointments = getAppointmentsForDay(state, state.day);
@@ -78,11 +106,13 @@ export default function Application() {
         interview={interview}
         interviewers={dailyInterviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     )
   });
 
-
+  // CSS hides the last appointment. Add a LAST appointment so CSS hides that
+  schedule.push(<Appointment key="last" time="5pm" />);
 
   return (
     <main className="layout">
@@ -95,11 +125,10 @@ export default function Application() {
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
-              days={state.days}
-              value={state.day}
-              onChange={setDay}
-
-            />
+            days={state.days}
+            value={state.day}
+            onChange={setDay}
+          />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"

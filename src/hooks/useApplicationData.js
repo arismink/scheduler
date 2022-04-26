@@ -44,9 +44,6 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-
-    console.log('book state', state);
-
     return axios.put(`/api/appointments/${id}`, appointment)
       .then((res) => {
         // Call setState and update it with the newly booked appointment

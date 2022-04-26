@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from "react";
-import axios from "axios";
+import React from 'react';
 
 import "components/Application.scss";
 
@@ -7,82 +6,18 @@ import DayList from "./DayList";
 import Appointment from "./Appointment";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
+// Hook that provides the state and handles all the changes to state
+import useApplicationData from "hooks/useApplicationData";
+
 
 export default function Application() {
 
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    appointment: {},
-    interviewers: {}
-  });
-
-
-  const setDay = day => setState({...state, day});
-
-  useEffect(() => {
-
-    Promise.all([
-      axios.get('/api/days'),
-      axios.get('/api/appointments'),
-      axios.get('/api/interviewers')
-    ])
-    .then(all => {
-      setState(prev => ({
-        ...prev,
-        days: all[0].data,
-        appointments: all[1].data,
-        interviewers: all[2].data
-      })
-      )
-    })
-    }, []);
-
-
-  // Allow change to local state when an interview is booked
-  function bookInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-
-    return axios.put(`/api/appointments/${id}`, appointment)
-      .then((res) => {
-        // Call setState and update it with the newly booked appointment
-        setState({
-          ...state,
-          appointments
-        });
-      })
-
-  };
-
-  // Set specified interview of appointment id to null
-  function cancelInterview(id) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: null
-    };
-
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-
-    return axios.delete(`/api/appointments/${id}`, appointment)
-      .then(res => {
-        setState({
-          ...state,
-          appointments
-        })
-      })
-
-  };
+  const {
+    state,
+    setDay,
+    bookInterview,
+    cancelInterview
+  } = useApplicationData();
 
   // Get array of appointments that day
   const dailyAppointments = getAppointmentsForDay(state, state.day);

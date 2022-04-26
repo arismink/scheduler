@@ -31,10 +31,11 @@ export default function Appointment(props) {
     const interview = {
       student: name,
       interviewer
-    };
+    }; 
 
     // When promise returned by axios put request is resolved, transition to SHOW
     props
+      // pass appointmentID, interview object, and whether or not if this is an EDIT
       .bookInterview(props.id, interview)
       .then(res => transition(SHOW))
       .catch(err => transition(ERROR_SAVE, true));

@@ -68,7 +68,6 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-
     return axios.put(`/api/appointments/${id}`, {interview})
       .then((res) => {
         // Call setState and update it with the newly booked appointment
@@ -83,8 +82,8 @@ export default function useApplicationData() {
         }));
 
       })
-
   };
+
 
   // Set specified interview of appointment id to null
   function cancelInterview(id) {

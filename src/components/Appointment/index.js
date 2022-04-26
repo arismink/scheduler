@@ -31,7 +31,7 @@ export default function Appointment(props) {
     const interview = {
       student: name,
       interviewer
-    };
+    }; 
 
     // When promise returned by axios put request is resolved, transition to SHOW
     props
@@ -73,6 +73,7 @@ export default function Appointment(props) {
       {mode === CREATE && (
         <Form
           interviewers={props.interviewers}
+          edit={false}
           onSave={save}
           onCancel={back}
         />
@@ -94,6 +95,7 @@ export default function Appointment(props) {
           student={props.interview.student}
           interviewer={props.interview.interviewer.id}
           interviewers={props.interviewers}
+          edit={true}
           onSave={save}
           onCancel={back}
         />

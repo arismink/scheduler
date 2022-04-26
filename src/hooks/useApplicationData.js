@@ -33,7 +33,7 @@ export default function useApplicationData() {
 
 
   // Allow change to local state when an interview is booked
-  function bookInterview(id, interview) {
+  function bookInterview(id, interview, edit) {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -50,7 +50,7 @@ export default function useApplicationData() {
     const days = [...state.days];
 
     // Subtract from remaining spots after promise is resolved
-    days[dayIndex].spots--;
+    if (!edit) days[dayIndex].spots--;
 
     return axios.put(`/api/appointments/${id}`, appointment)
       .then((res) => {

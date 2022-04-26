@@ -2,6 +2,29 @@ import {useState, useEffect} from 'react';
 
 import axios from 'axios';
 
+const updateSpots = (state, appointments) => {
+
+  // Find day obj
+  const dayObj = state.days.find(d => d.name === state.day);
+
+  // Get array of appointmentIDs for specified day
+  const dayApptSchedule = dayObj.appointments;
+
+  // Get array of appointment objects that correspond to the elements in dayApptSchedule
+  const apptArray = Object.values(appointments).filter(a => dayApptSchedule.includes(a.id));
+
+  const remainingSpots = apptArray.filter(a => !a.interview).length;
+
+  // Create new day object
+  const day = {...dayObj, spots: remainingSpots}
+
+  // Create new array that includes the new day
+  const days = state.days.map(d => d.name === state.day ? day : d);
+
+  return days
+
+};
+
 export default function useApplicationData() {
   const [state, setState] = useState({
     day: "Monday",
@@ -30,31 +53,6 @@ export default function useApplicationData() {
       )
     })
     }, []);
-
-  
-  const updateSpots = (state, appointments) => {
-
-    // Find day obj
-    const dayObj = state.days.find(d => d.name === state.day);
-
-    // Get array of appointmentIDs for specified day
-    const dayApptSchedule = dayObj.appointments;
-
-    // Get array of appointment objects that correspond to the elements in dayApptSchedule
-    const apptArray = Object.values(appointments).filter(a => dayApptSchedule.includes(a.id));
-
-    const remainingSpots = apptArray.filter(a => !a.interview).length;
-
-    // Create new day object
-    const day = {...dayObj, spots: remainingSpots}
-
-    // Create new array that includes the new day
-    const days = state.days.map(d => d.name === state.day ? day : d);
-
-    return days
-  
-  }
-    
 
 
   // Allow change to local state when an interview is booked

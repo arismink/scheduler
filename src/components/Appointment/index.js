@@ -24,18 +24,19 @@ const ERROR_DELETE = "ERROR_DELETE"
 
 export default function Appointment(props) {
 
-  function save(name, interviewer) {
+  function save(name, interviewer, edit) {
     if (!name || !interviewer) return alert('Please enter valid input.');
 
     transition(SAVE, true);
     const interview = {
       student: name,
       interviewer
-    };
+    }; 
 
     // When promise returned by axios put request is resolved, transition to SHOW
     props
-      .bookInterview(props.id, interview)
+      // pass appointmentID, interview object, and whether or not if this is an EDIT
+      .bookInterview(props.id, interview, edit)
       .then(res => transition(SHOW))
       .catch(err => transition(ERROR_SAVE, true));
   
@@ -73,7 +74,7 @@ export default function Appointment(props) {
       {mode === CREATE && (
         <Form
           interviewers={props.interviewers}
-          onSave={save}
+          onSave={(a, b) => save(a, b, false)}
           onCancel={back}
         />
       )}
@@ -94,7 +95,7 @@ export default function Appointment(props) {
           student={props.interview.student}
           interviewer={props.interview.interviewer.id}
           interviewers={props.interviewers}
-          onSave={save}
+          onSave={(a, b) => save(a, b, true)}
           onCancel={back}
         />
       )}

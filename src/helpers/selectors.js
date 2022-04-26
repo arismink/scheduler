@@ -19,7 +19,7 @@ function getInterviewersForDay(state, day) {
 function getInterview(state, interview) {
   
   // Guard clause. Check if objects passed are valid
-  if (!state.interviewers || !interview) return null; 
+  if (!state.interviewers || !interview || !interview.interviewer) return null; 
 
   const interviewersArray = Object.values(state.interviewers);
 
@@ -27,7 +27,7 @@ function getInterview(state, interview) {
   if (!interviewersArray.some(i => i.id === interview.interviewer)) return null;
 
   // Object of scheduled interviewer
-  const interviewer = interviewersArray.filter(interviewer => interviewer.id === interview.interviewer)[0];
+  const interviewer = interviewersArray.find(interviewer => interviewer.id === interview.interviewer);
 
   const student = interview.student;
 

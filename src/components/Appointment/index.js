@@ -16,12 +16,14 @@ const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVE = "SAVE";
 const DELETE = "DELETE";
-const CONFIRM= "CONFIRM"
+const CONFIRM= "CONFIRM";
+const EDIT = "EDIT";
 
 export default function Appointment(props) {
 
   function save(name, interviewer) {
-    
+    if (!name || !interviewer) return alert('Please enter valid input.');
+
     transition(SAVE);
     const interview = {
       student: name,
@@ -29,7 +31,7 @@ export default function Appointment(props) {
     };
 
     // When promise returned by axios put request is resolved, transition to SHOW
-    (props.bookInterview(props.id, interview))
+    props.bookInterview(props.id, interview)
       .then(res => transition(SHOW));
   
   };
@@ -46,16 +48,19 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
   
+  console.log('props.interview', props.interview);
+
   return (
     <article className="appointment">
       <Header time={props.time} />
       
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-      {mode === SHOW && (
+      {mode === SHOW && props.interview && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
           onDelete={() => transition(CONFIRM)}
+          onEdit={() => transition(CREATE)}
         />
       )}
       {mode === CREATE && (

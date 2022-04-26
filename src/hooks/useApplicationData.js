@@ -50,7 +50,7 @@ export default function useApplicationData() {
     // Make copy of state.days that can be modified
     const days = [...state.days];
 
-    // Subtract from remaining spots after promise is resolved
+    // Subtract from remaining spots after promise is resolved and if this is not for an EDIT
     if (!edit) days[dayIndex].spots--;
 
     return axios.put(`/api/appointments/${id}`, appointment)

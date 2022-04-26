@@ -47,6 +47,7 @@ export default function useApplicationData() {
     // Find the index of the specific day
     const dayIndex = state.days.find(day => day.appointments.includes(id)).id - 1;
 
+    // Make copy of state.days that can be modified
     const days = [...state.days];
 
     // Subtract from remaining spots after promise is resolved
@@ -80,6 +81,7 @@ export default function useApplicationData() {
     // Find the index of the specific day
     const dayIndex = state.days.find(day => day.appointments.includes(id)).id - 1;
 
+    // Make copy of state.days that can be modified
     const days = [...state.days];
 
     // Add to remaining spots

@@ -47,7 +47,7 @@ export default function useApplicationData() {
         count++
       }
     }
-
+    
     // Account for the spot that was just updated
     return count - 1;
 

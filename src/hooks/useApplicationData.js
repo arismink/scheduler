@@ -32,25 +32,6 @@ export default function useApplicationData() {
     }, []);
 
   
-  // function updateSpots(appointmentID, dayID) {
-
-  //   // Get array of appointmentIDs for specified day
-  //   const dayApptSchedule = state.days[dayID].appointments;
-
-  //   // Get array of appointment objects that correspond to the elements in dayApptSchedule
-  //   const apptArray = Object.values(state.appointments).filter(a => dayApptSchedule.includes(appointmentID));
-
-  //   let count = 0;
-
-  //   for (let a of apptArray) {
-  //     if (a.interview === null) {
-  //       count++
-  //     }
-  //   }
-  //   return count;
-  // }
-
-
   // Allow change to local state when an interview is booked
   function bookInterview(id, interview) {
     const appointment = {
@@ -63,19 +44,6 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    // const dayID = state.days.find(day => day.appointments.includes(id));
-
-    // const day = {
-    //   ...state.days[dayID],
-    //   spots: updateSpots(id, dayID)
-    // }
-
-    // const days = {
-    //   ...state.days,
-    //   [dayID]: day
-    // }
-
-    // console.log('dayID', dayID);
 
     console.log('book state', state);
 
@@ -85,10 +53,8 @@ export default function useApplicationData() {
         setState({
           ...state,
           appointments
-          // ,days
         });
       })
-
   };
 
   // Set specified interview of appointment id to null

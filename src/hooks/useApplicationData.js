@@ -37,24 +37,19 @@ export default function useApplicationData() {
     // Get array of appointmentIDs for specified day
     const dayApptSchedule = state.days[dayIndex].appointments;
 
-    console.log('schedule', dayApptSchedule);
-
     // Get array of appointment objects that correspond to the elements in dayApptSchedule
     const apptArray = Object.values(state.appointments).filter(a => dayApptSchedule.includes(a.id));
-
-    console.log('apt array', apptArray);
 
     let count = 0;
 
     for (let a of apptArray) {
-      console.log(a)
       if (!a.interview) {
         count++
       }
     }
-    count = count - 1;
-    console.log('count', count);
-    return count;
+
+    // Account for the spot that was just updated
+    return count - 1;
 
   }
 
@@ -71,6 +66,7 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
+    // Find the index of the specific day
     const dayIndex = state.days.find(day => day.appointments.includes(id)).id - 1;
 
     const day = {
@@ -78,13 +74,12 @@ export default function useApplicationData() {
       spots: updateSpots(dayIndex)
     }
 
+    // DayID is dayIndex + 1
     const days = (state.days).map(d => {
-      if (d.id === dayIndex) return day;
+      if (d.id === (dayIndex + 1) ) return day;
       return d
     })
 
-
-    console.log('book state', state);
 
     return axios.put(`/api/appointments/${id}`, appointment)
       .then((res) => {
@@ -93,8 +88,8 @@ export default function useApplicationData() {
         console.log('days', days);
         setState(prev => ({
           ...prev,
-          appointments
-          ,days
+          appointments,
+          days
         }));
 
       })
@@ -113,12 +108,27 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
+     // Find the index of the specific day
+     const dayIndex = state.days.find(day => day.appointments.includes(id)).id - 1;
+
+     const day = {
+       ...state.days[dayIndex],
+       spots: updateSpots(dayIndex)
+     }
+ 
+     // DayID is dayIndex + 1
+     const days = (state.days).map(d => {
+       if (d.id === (dayIndex + 1) ) return day;
+       return d
+     })
+
     return axios.delete(`/api/appointments/${id}`, appointment)
       .then(res => {
-        setState({
-          ...state,
-          appointments
-        })
+        setState(prev => ({
+          ...prev,
+          appointments,
+          days
+        }));
       })
 
   };

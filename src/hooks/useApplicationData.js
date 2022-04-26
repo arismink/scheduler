@@ -2,6 +2,32 @@ import {useState, useEffect} from 'react';
 
 import axios from 'axios';
 
+
+const updateSpots = (state) => {
+
+  // Find the index of the specific day
+  const dayIndex = state.days.findIndex(d => d.name === state.day)
+
+  // Get array of appointmentIDs for specified day
+  const dayApptSchedule = state.days[dayIndex].appointments;
+
+  // Get array of appointment objects that correspond to the elements in dayApptSchedule
+  const apptArray = Object.values(state.appointments).filter(a => dayApptSchedule.includes(a.id));
+
+  const remainingSpots = apptArray.filter(a => !a.interview).length;
+
+  const day = {
+    ...state.days[dayIndex],
+    spots: remainingSpots
+  };
+
+  const days = [...state.days].splice(dayIndex, 1).push(day);
+
+  return days;
+
+}
+
+
 export default function useApplicationData() {
   const [state, setState] = useState({
     day: "Monday",
@@ -31,31 +57,10 @@ export default function useApplicationData() {
     })
     }, []);
 
-  
-  function updateSpots(dayIndex) {
-
-    // Get array of appointmentIDs for specified day
-    const dayApptSchedule = state.days[dayIndex].appointments;
-
-    // Get array of appointment objects that correspond to the elements in dayApptSchedule
-    const apptArray = Object.values(state.appointments).filter(a => dayApptSchedule.includes(a.id));
-
-    let count = 0;
-
-    for (let a of apptArray) {
-      if (!a.interview) {
-        count++
-      }
-    }
-    
-    // Account for the spot that was just updated
-    return count - 1;
-
-  }
-
 
   // Allow change to local state when an interview is booked
   function bookInterview(id, interview) {
+
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -66,20 +71,8 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    // Find the index of the specific day
-    const dayIndex = state.days.find(day => day.appointments.includes(id)).id - 1;
-
-    const day = {
-      ...state.days[dayIndex],
-      spots: updateSpots(dayIndex)
-    }
-
-    // DayID is dayIndex + 1
-    const days = (state.days).map(d => {
-      if (d.id === (dayIndex + 1) ) return day;
-      return d
-    })
-
+    // Retrieve new array with the updated spots
+    const days = updateSpots(state)
 
     return axios.put(`/api/appointments/${id}`, appointment)
       .then((res) => {
@@ -108,19 +101,9 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-     // Find the index of the specific day
-     const dayIndex = state.days.find(day => day.appointments.includes(id)).id - 1;
 
-     const day = {
-       ...state.days[dayIndex],
-       spots: updateSpots(dayIndex)
-     }
- 
-     // DayID is dayIndex + 1
-     const days = (state.days).map(d => {
-       if (d.id === (dayIndex + 1) ) return day;
-       return d
-     })
+    // Retrieve new array with the updated spots
+    const days = updateSpots(state);
 
     return axios.delete(`/api/appointments/${id}`, appointment)
       .then(res => {

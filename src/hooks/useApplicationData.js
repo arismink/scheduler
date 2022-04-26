@@ -32,23 +32,30 @@ export default function useApplicationData() {
     }, []);
 
   
-  // function updateSpots(appointmentID, dayID) {
+  function updateSpots(appointmentID, dayIndex) {
 
-  //   // Get array of appointmentIDs for specified day
-  //   const dayApptSchedule = state.days[dayID].appointments;
+    // Get array of appointmentIDs for specified day
+    const dayApptSchedule = state.days[dayIndex].appointments;
 
-  //   // Get array of appointment objects that correspond to the elements in dayApptSchedule
-  //   const apptArray = Object.values(state.appointments).filter(a => dayApptSchedule.includes(appointmentID));
+    console.log('schedule', dayApptSchedule);
 
-  //   let count = 0;
+    // Get array of appointment objects that correspond to the elements in dayApptSchedule
+    const apptArray = Object.values(state.appointments).filter(a => dayApptSchedule.includes(a.id));
 
-  //   for (let a of apptArray) {
-  //     if (a.interview === null) {
-  //       count++
-  //     }
-  //   }
-  //   return count;
-  // }
+    // console.log('apt array', apptArray);
+
+    let count = 0;
+
+    for (let a of apptArray) {
+      console.log(a)
+      if (!a.interview) {
+        count++
+      }
+    }
+    console.log('count', count);
+    return count;
+
+  }
 
 
   // Allow change to local state when an interview is booked
@@ -63,30 +70,30 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    // const dayID = state.days.find(day => day.appointments.includes(id));
+    const dayIndex = state.days.find(day => day.appointments.includes(id)).id - 1;
 
-    // const day = {
-    //   ...state.days[dayID],
-    //   spots: updateSpots(id, dayID)
-    // }
+    const day = {
+      ...state.days[dayIndex],
+      spots: updateSpots(id, dayIndex)
+    }
 
-    // const days = {
-    //   ...state.days,
-    //   [dayID]: day
-    // }
+    const days = (state.days).map(d => {
+      if (day.id === dayIndex) return day;
+      return d
+    })
 
-    console.log('dayID', dayID);
 
     console.log('book state', state);
 
     return axios.put(`/api/appointments/${id}`, appointment)
       .then((res) => {
         // Call setState and update it with the newly booked appointment
-        setState({
-          ...state,
+        setState(prev => ({
+          ...prev,
           appointments
           ,days
-        });
+        }));
+
       })
 
   };

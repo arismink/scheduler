@@ -44,6 +44,8 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
+    console.log('edit', edit);
+
     // Find the index of the specific day
     const dayIndex = state.days.find(day => day.appointments.includes(id)).id - 1;
 

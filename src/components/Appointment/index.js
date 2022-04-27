@@ -25,8 +25,6 @@ const ERROR_DELETE = "ERROR_DELETE"
 export default function Appointment(props) {
 
   function save(name, interviewer) {
-    if (!name || !interviewer) return alert('Please enter valid input.');
-
     transition(SAVE, true);
     const interview = {
       student: name,

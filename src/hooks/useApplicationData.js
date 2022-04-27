@@ -4,14 +4,11 @@ import axios from 'axios';
 
 const updateSpots = (state, appointments) => {
 
-  // Find day obj
+  // Find day object
   const dayObj = state.days.find(d => d.name === state.day);
 
-  // Get array of appointmentIDs for specified day
-  const dayApptSchedule = dayObj.appointments;
-
-  // Get array of appointment objects that correspond to the elements in dayApptSchedule
-  const apptArray = Object.values(appointments).filter(a => dayApptSchedule.includes(a.id));
+  // Get array of appointment objects that correspond to the elements in dayObj's appointments
+  const apptArray = Object.values(appointments).filter(a => dayObj.appointments.includes(a.id));
 
   const remainingSpots = apptArray.filter(a => !a.interview).length;
 

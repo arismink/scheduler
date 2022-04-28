@@ -19,21 +19,21 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm test
 
-deploy:
-  machine:
-    enabled: true
+  deploy:
+    machine:
+      enabled: true
 
-  working_directory: ~/client
+    working_directory: ~/client
 
-  steps:
-    - add_ssh_keys:
-        fingerprints:
-          - "8d:9a:3b:cd:31:20:b7:e8:94:ce:57:d2:ba:31:ad:d1"
-    - checkout
-    - run:
-        name: Push Master to Production
-        command: |
-          git push https://github.com/arismink/scheduler.git master:production
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "8d:9a:3b:cd:31:20:b7:e8:94:ce:57:d2:ba:31:ad:d1"
+      - checkout
+      - run:
+          name: Push Master to Production
+          command: |
+            git push https://github.com/arismink/scheduler.git master:production
 
 workflows:
   version: 2

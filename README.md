@@ -1,5 +1,7 @@
 # Interview Scheduler
 
+A scheduling app built with React that allows users to book, modify and cancel interview appointments.
+
 ## Setup
 
 Install dependencies with `npm install`.
@@ -21,3 +23,15 @@ npm test
 ```sh
 npm run storybook
 ```
+
+
+## Final Product
+
+### Book an Appointment
+![book-appt](https://github.com/arismink/scheduler/blob/master/docs/scheduler%20-%20add%20appointment.gif)
+
+### Modify Appointment
+![modify-appt](https://github.com/arismink/scheduler/blob/master/docs/scheduler%20-%20modify%20appointment.gif)
+
+### Delete Appointment
+![delete-appt](https://github.com/arismink/scheduler/blob/master/docs/scheduler%20-%20delete%20appointment.gif)

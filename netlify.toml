@@ -9,7 +9,7 @@
   publish = "build/"
 
   # Default build command.
-  command = "CI= npm run build"
+  CI= npm run build
 
 [build.environment]
   REACT_APP_API_BASE_URL = "https://scheduler-arismink.herokuapp.com/"

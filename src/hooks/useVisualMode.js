@@ -26,13 +26,13 @@ export default function useVisualMode(init) {
       history.pop();
 
       // Ensure that new history is recognized by React so it re-renders
-      setHistory([...history])
+      setHistory([...history]);
 
       // Back limit
     } else {
-      setMode(init)
+      setMode(init);
     }
   }
   
-  return { mode, transition, back }
+  return { mode, transition, back };
 };

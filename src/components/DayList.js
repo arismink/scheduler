@@ -20,4 +20,4 @@ export default function DayList(props) {
       {daysArray}
     </ul>
   )
-}
+};

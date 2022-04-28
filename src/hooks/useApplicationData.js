@@ -13,12 +13,12 @@ const updateSpots = (state, appointments) => {
   const remainingSpots = apptArray.filter(a => !a.interview).length;
 
   // Create new day object
-  const day = {...dayObj, spots: remainingSpots}
+  const day = {...dayObj, spots: remainingSpots};
 
   // Create new array that includes the new day
   const days = state.days.map(d => d.name === state.day ? day : d);
 
-  return days
+  return days;
 
 };
 
@@ -109,5 +109,5 @@ export default function useApplicationData() {
 
   };
 
-  return {state, setDay, bookInterview, cancelInterview}
+  return {state, setDay, bookInterview, cancelInterview};
 }

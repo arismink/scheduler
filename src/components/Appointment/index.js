@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles.scss'
+import './styles.scss';
 
 import Header from 'components/Appointment/Header';
 import Form from './Form';
@@ -20,7 +20,7 @@ const DELETE = "DELETE";
 const CONFIRM= "CONFIRM";
 const EDIT = "EDIT";
 const ERROR_SAVE = "ERROR_SAVE";
-const ERROR_DELETE = "ERROR_DELETE"
+const ERROR_DELETE = "ERROR_DELETE";
 
 export default function Appointment(props) {
 
@@ -47,7 +47,7 @@ export default function Appointment(props) {
     props
       .cancelInterview(props.id)
       .then(res => transition(EMPTY))
-      .catch(err => transition(ERROR_DELETE, true))
+      .catch(err => transition(ERROR_DELETE, true));
   }
 
   const {mode, transition, back} = useVisualMode(
